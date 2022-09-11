@@ -4,6 +4,7 @@ import com.geniusee.task.cinema.entity.Movie;
 import com.geniusee.task.cinema.repository.MovieRepository;
 import com.geniusee.task.cinema.service.MovieService;
 import com.geniusee.task.cinema.util.Validator;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +12,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Data
 public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
-    private final Validator validator;
 
     @Autowired
-    public MovieServiceImpl(MovieRepository movieRepository,
-                            Validator validator) {
+    public MovieServiceImpl(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.validator = validator;
     }
 
     @Override

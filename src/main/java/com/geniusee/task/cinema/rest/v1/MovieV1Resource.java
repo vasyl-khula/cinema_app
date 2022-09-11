@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -30,8 +31,8 @@ public class MovieV1Resource extends BaseResource {
         this.validator = validator;
     }
 
-    @RequestMapping(value="id", method = GET, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Movie> getMovie(@PathVariable("id") UUID id){
+    @RequestMapping(value="{id}", method = GET, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Movie> getMovie(@PathVariable UUID id){
         if(validator.isIdInvalid(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -40,5 +41,14 @@ public class MovieV1Resource extends BaseResource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(movie, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = GET, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Movie>> getAllsMovies(){
+        List<Movie> movies = movieService.getAllMovies();
+        if(movies == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 }

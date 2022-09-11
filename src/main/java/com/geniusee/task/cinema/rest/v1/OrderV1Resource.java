@@ -6,9 +6,11 @@ import com.geniusee.task.cinema.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -27,8 +29,8 @@ public class OrderV1Resource {
         this.validator = validator;
     }
 
-    @RequestMapping(value="id", method = GET, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Order> getOrder(UUID id) {
+    @RequestMapping(value="{id}", method = GET, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Order> getOrder(@PathVariable UUID id) {
         if(validator.isIdInvalid(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -37,5 +39,14 @@ public class OrderV1Resource {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = GET, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Order>> getOrder() {
+        List<Order> orders = orderService.getAllOrders();
+        if(orders == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }
