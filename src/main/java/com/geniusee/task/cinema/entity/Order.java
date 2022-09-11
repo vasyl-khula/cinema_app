@@ -20,8 +20,8 @@ public class Order {
     @Column(name = "visitor_name")
     private String visitorName;
 
-    @Column(name = "movie_id")
     @OneToOne
+    @JoinColumn (name = "movie_id")
     private Movie movie;
 
     @Column(name = "row_number")
