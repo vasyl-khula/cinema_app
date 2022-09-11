@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet  author="vasyl"  id="1">
+        <createTable tableName="movies">
+            <column  name="id"  type="UUID">
+                <constraints  nullable="false"  primaryKey="true"  unique="true"/>
+            </column>
+            <column  name="title"  type="VARCHAR(255)" />
+            <column  name="description"  type="VARCHAR(2000)" />
+        </createTable>
+
+        <createTable tableName="orders">
+            <column  name="id"  type="UUID">
+                <constraints  nullable="false"  primaryKey="true"  unique="true"/>
+            </column>
+            <column  name="visitor_name"  type="VARCHAR(255)" />
+            <column  name="row_number"  type="INT" />
+            <column  name="movie_id"  type="UUID" >
+                <constraints foreignKeyName="movie_id_pr" referencedTableName="movies" referencedColumnNames="id"/>
+            </column>
+            <column  name="seat_number"  type="INT" />
+            <column  name="description"  type="VARCHAR(2000)" />
+            <column  name="price"  type="INT" />
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
